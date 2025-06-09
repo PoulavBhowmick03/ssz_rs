@@ -1,3 +1,4 @@
+mod boolean;
 use std::fmt::Error;
 
 fn main() {
@@ -8,7 +9,7 @@ pub trait HashTreeRoot {
 }
 
 pub trait Serialize {
-    fn serialize (&self, buf: &mut Vec<u8>);
+    fn serialize(&self, buf: &mut Vec<u8>);
 }
 
 pub trait Deserialize: Sized {
@@ -21,7 +22,6 @@ mod tests {
 
     #[test]
     fn test_hash_tree_root() {
-
         #[derive(Debug)]
         struct Example;
 
@@ -32,12 +32,14 @@ mod tests {
         }
         let example = Example;
         let root = example.hash_tree_root();
-        assert_eq!(root, [10; 32], "Hash tree root should be an array of 32 zeros");
+        assert_eq!(
+            root, [10; 32],
+            "Hash tree root should be an array of 32 zeros"
+        );
     }
 
     #[test]
-    fn test_serialize () {
-
+    fn test_serialize() {
         #[derive(Debug)]
         struct Example;
 
@@ -49,8 +51,11 @@ mod tests {
         let example = Example;
         let mut buffer: Vec<u8> = Vec::new();
         example.serialize(buffer.as_mut());
-        assert_eq!(buffer, vec![1, 2, 3, 4], "Serialized buffer should match expected values");
-        
+        assert_eq!(
+            buffer,
+            vec![1, 2, 3, 4],
+            "Serialized buffer should match expected values"
+        );
     }
 
     #[test]
@@ -70,6 +75,9 @@ mod tests {
         let bytes = vec![1, 2, 3, 4];
         let (example, size) = Example::deserialize(&bytes).unwrap();
         assert_eq!(size, 4, "Size should be 4");
-        assert_eq!(example, Example, "Deserialized object should match expected");
+        assert_eq!(
+            example, Example,
+            "Deserialized object should match expected"
+        );
     }
 }
